@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="Heather Seiders " />
+    <meta name="description" content="Describe your website">
+    <link rel="shortcut icon" type="image/x-icon" href="../img/favicon.ico">
+    <title>Project 2: Modeling, Testing, and Predicting</title>
+    <meta name="generator" content="Hugo 0.70.0" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="../css/main.css" />
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,400,200bold,400old" />
+    
+    <!--[if lt IE 9]>
+			<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+			<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+		<![endif]-->
+
+    
+  </head>
+
+  <body>
+    <div id="wrap">
+
+      
+      <nav class="navbar navbar-default">
+  <div class="container">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="../"><i class="fa fa-home"></i></a>
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <div class="navbar-collapse collapse" id="navbar">
+      <ul class="nav navbar-nav navbar-right">
+      
+        
+        <li><a href="../blog/">BLOG</a></li>
+        
+        <li><a href="../projects/">PROJECTS</a></li>
+        
+        <li><a href="resume.docx">RESUME</a></li>
+        
+      
+      </ul>
+    </div>
+  </div>
+</nav>
+
+      
+      <div class="container">
+        <div class="blog-post">
+          <h3>
+            <strong><a href="../project2/">Project 2: Modeling, Testing, and Predicting</a></strong>
+          </h3>
+        </div>
+        <div class="blog-title">
+          <h4>
+          January 1, 0001
+            &nbsp;&nbsp;
+            
+          </h4>
+        </div>
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <div class="blogpost">
+              
+
+
+<p>Heather Seiders hms2364</p>
+<div id="modeling" class="section level1">
+<h1>Modeling</h1>
+<div id="instructions" class="section level2">
+<h2>Instructions</h2>
+<p>A knitted R Markdown document (as a PDF) and the raw R Markdown file (as .Rmd) should both be submitted to Canvas by 11:59pm on 5/1/2020. These two documents will be graded jointly, so they must be consistent (i.e., don’t change the R Markdown file without also updating the knitted document). Knit an html copy too, for later! In the .Rmd file for Project 2, you can copy the first code-chunk into your project .Rmd file to get better formatting. Notice that you can adjust the opts_chunk$set(…) above to set certain parameters if necessary to make the knitting cleaner (you can globally set the size of all plots, etc). You can copy the set-up chunk in Project2.Rmd: I have gone ahead and set a few for you (such as disabling warnings and package-loading messges when knitting)!</p>
+<p>Like before, I envision your written text forming something of a narrative structure around your code/output. All results presented must have corresponding code. Any answers/results/plots etc. given without the corresponding R code that generated the result will not be graded. Furthermore, all code contained in your final project document should work properly. Please do not include any extraneous code or code which produces error messages. (Code which produces warnings is acceptable, as long as you understand what the warnings mean).</p>
+</div>
+<div id="find-data" class="section level2">
+<h2>Find data:</h2>
+<p>Find one dataset with at least 5 variables that wish to use to build models. At least one should be categorical (with 2-5 groups) and at least two should be numeric. Ideally, one of your variables will be binary (if not, you will need to create one by discretizing a numeric, which is workable but less than ideal). You will need a minimum of 40 observations (<em>at least</em> 10 observations for every explanatory variable you have, ideally 20+ observations/variable).</p>
+<p>It is perfectly fine to use either dataset (or the merged dataset, or a subset of your variables) from Project 1. However, you could also diversify your portfolio a bit by choosing a different dataset to work with (particularly if the variables did not reveal interesting associations in Project 1). The only requirement/restriction is that you may not use data from any examples we have done in class or lab. It would be a good idea to pick more cohesive data this time around (i.e., variables that you actually thing might have a relationship you would want to test). Think more along the lines of your Biostats project.</p>
+<p>Again, you can use data from anywhere you want (see bottom for resources)! If you want a quick way to see whether a built-in (R) dataset has binary and/or character (i.e., categorical) variables, check out this list: <a href="https://vincentarelbundock.github.io/Rdatasets/datasets.html" class="uri">https://vincentarelbundock.github.io/Rdatasets/datasets.html</a>.</p>
+</div>
+<div id="guidelines-and-rubric" class="section level2">
+<h2>Guidelines and Rubric</h2>
+<div id="pts-introduce-your-dataset-and-each-of-your-variables-or-just-your-main-variables-if-you-have-lots-in-a-paragraph.-what-are-they-measuring-how-many-observations" class="section level5">
+<h5>0.) (5 pts)** Introduce your dataset and each of your variables (or just your main variables if you have lots) in a paragraph. What are they measuring? How many observations?</h5>
+<p>The regseasonstats dataset is the National Basketball Association player game statistics during the 2018-2019 basketball season. Players included in the dataset played 70% or more of their teams games. The regseasonstats data observes a variety of some of ranked by ESPN from the regular season. There are 24 variables in the dataset - all statistics from during game play, ie: position, games played, minutes per game, average points per game, assists, etc. These assumptions are made based on player conistency through the regular season being reflected during the post season. Even though the season has been indefinitely suspended, my boyfriend has gotten me more into sports, and we both like to follow players and teams each season.</p>
+</div>
+<div id="pts-perform-a-manova-testing-whether-any-of-your-numeric-variables-or-a-subset-of-them-if-including-them-all-doesnt-make-sense-show-a-mean-difference-across-levels-of-one-of-your-categorical-variables-3.-if-they-do-perform-univariate-anovas-to-find-responses-showing-a-mean-difference-across-groups-3-and-perform-post-hoc-t-tests-to-find-which-groups-differ-3.-discuss-the-number-of-tests-you-have-performed-calculate-the-probability-of-at-least-one-type-i-error-if-unadjusted-and-adjust-the-significance-level-accordingly-bonferroni-correction-before-discussing-significant-differences-3.-briefly-discuss-assumptions-and-whether-or-not-they-are-likely-to-have-been-met-2." class="section level5">
+<h5>1.) (15 pts)** Perform a MANOVA testing whether any of your numeric variables (or a subset of them, if including them all doesn’t make sense) show a mean difference across levels of one of your categorical variables (3). If they do, perform univariate ANOVAs to find response(s) showing a mean difference across groups (3), and perform post-hoc t tests to find which groups differ (3). Discuss the number of tests you have performed, calculate the probability of at least one type I error (if unadjusted), and adjust the significance level accordingly (bonferroni correction) before discussing significant differences (3). Briefly discuss assumptions and whether or not they are likely to have been met (2).</h5>
+<pre class="r"><code>library(readxl)
+regseasonstats &lt;- read_excel(&quot;regseasonstats.xlsx&quot;)
+
+manova(cbind(GP,MIN,PTS,FGM,FGA,FTM,FTA,REB,AST,STL,BLK,TO,DD2,TD3,PER)~POS, data=regseasonstats)</code></pre>
+<pre><code>## Call:
+## manova(cbind(GP, MIN, PTS, FGM, FGA, FTM, FTA, REB, AST,
+STL,
+## BLK, TO, DD2, TD3, PER) ~ POS, data = regseasonstats)
+##
+## Terms:
+## POS Residuals
+## resp 1 329.458 2154.581
+## resp 2 89.352 760.854
+## resp 3 195.064 1909.721
+## resp 4 19.127 213.341
+## resp 5 144.344 868.725
+## resp 6 10.771 191.630
+## resp 7 12.213 273.734
+## resp 8 184.410 208.938
+## resp 9 97.885 186.835
+## resp 10 1.556 8.470
+## resp 11 5.506 5.658
+## resp 12 5.899 40.528
+## resp 13 4062.581 9648.400
+## resp 14 127.427 1232.494
+## resp 15 115.779 1143.477
+## Deg. of Freedom 5 45
+##
+## Residual standard errors: 6.919507 4.111919 6.514464
+2.177365 4.393744 2.063601 2.466371 2.154775 2.037619
+0.4338412 0.3545787 0.9490127 14.64271 5.233428 5.040894
+## Estimated effects may be unbalanced</code></pre>
+<pre class="r"><code>manova1 &lt;- manova(cbind(GP,MIN,PTS,FGM,FGA,FTM,FTA,REB,AST,STL,BLK,TO,DD2,TD3,PER)~POS, data=regseasonstats)
+summary(manova1)</code></pre>
+<pre><code>## Df Pillai approx F num Df den Df Pr(&gt;F)
+## POS 5 2.2622 1.928 75 175 0.0002271 ***
+## Residuals 45
+## ---
+## Signif. codes: 0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1
+&#39; &#39; 1</code></pre>
+<pre class="r"><code>summary.aov(manova1)</code></pre>
+<pre><code>## Response GP :
+## Df Sum Sq Mean Sq F value Pr(&gt;F)
+## POS 5 329.46 65.892 1.3762 0.2512
+## Residuals 45 2154.58 47.880
+##
+## Response MIN :
+## Df Sum Sq Mean Sq F value Pr(&gt;F)
+## POS 5 89.35 17.870 1.0569 0.3967
+## Residuals 45 760.85 16.908
+##
+## Response PTS :
+## Df Sum Sq Mean Sq F value Pr(&gt;F)
+## POS 5 195.06 39.013 0.9193 0.4773
+## Residuals 45 1909.72 42.438
+##
+## Response FGM :
+## Df Sum Sq Mean Sq F value Pr(&gt;F)
+## POS 5 19.127 3.8254 0.8069 0.5509
+## Residuals 45 213.341 4.7409
+##
+## Response FGA :
+## Df Sum Sq Mean Sq F value Pr(&gt;F)
+## POS 5 144.34 28.869 1.4954 0.2103
+## Residuals 45 868.72 19.305
+##
+## Response FTM :
+## Df Sum Sq Mean Sq F value Pr(&gt;F)
+## POS 5 10.771 2.1543 0.5059 0.7702
+## Residuals 45 191.630 4.2584
+##
+## Response FTA :
+## Df Sum Sq Mean Sq F value Pr(&gt;F)
+## POS 5 12.213 2.4426 0.4016 0.8452
+## Residuals 45 273.734 6.0830
+##
+## Response REB :
+## Df Sum Sq Mean Sq F value Pr(&gt;F)
+## POS 5 184.41 36.882 7.9435 1.973e-05 ***
+## Residuals 45 208.94 4.643
+## ---
+## Signif. codes: 0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1
+&#39; &#39; 1
+##
+## Response AST :
+## Df Sum Sq Mean Sq F value Pr(&gt;F)
+## POS 5 97.885 19.5771 4.7152 0.001511 **
+## Residuals 45 186.835 4.1519
+## ---
+## Signif. codes: 0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1
+&#39; &#39; 1
+##
+## Response STL :
+## Df Sum Sq Mean Sq F value Pr(&gt;F)
+## POS 5 1.5561 0.31121 1.6535 0.1655
+## Residuals 45 8.4698 0.18822
+##
+## Response BLK :
+## Df Sum Sq Mean Sq F value Pr(&gt;F)
+## POS 5 5.5059 1.10117 8.7585 7.35e-06 ***
+## Residuals 45 5.6577 0.12573
+## ---
+## Signif. codes: 0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1
+&#39; &#39; 1
+##
+## Response TO :
+## Df Sum Sq Mean Sq F value Pr(&gt;F)
+## POS 5 5.899 1.17986 1.3101 0.2768
+## Residuals 45 40.528 0.90063
+##
+## Response DD2 :
+## Df Sum Sq Mean Sq F value Pr(&gt;F)
+## POS 5 4062.6 812.52 3.7896 0.005992 **
+## Residuals 45 9648.4 214.41
+## ---
+## Signif. codes: 0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1
+&#39; &#39; 1
+##
+## Response TD3 :
+## Df Sum Sq Mean Sq F value Pr(&gt;F)
+## POS 5 127.43 25.485 0.9305 0.4703
+## Residuals 45 1232.49 27.389
+##
+## Response PER :
+## Df Sum Sq Mean Sq F value Pr(&gt;F)
+## POS 5 115.78 23.156 0.9113 0.4823
+## Residuals 45 1143.48 25.411</code></pre>
+<pre class="r"><code>regseasonstats1 &lt;- regseasonstats %&gt;%filter(POS %in% c(&quot;C&quot;,&quot;PF&quot;,&quot;SF&quot;,&quot;SG&quot;,&quot;PG&quot;))
+pairwise.t.test(regseasonstats1$REB, regseasonstats1$POS, p.adj=&quot;none&quot;)</code></pre>
+<pre><code>## 
+##  Pairwise comparisons using t tests with pooled SD 
+## 
+## data:  regseasonstats1$REB and regseasonstats1$POS 
+## 
+##    C       PF      PG      SF     
+## PF 0.03550 -       -       -      
+## PG 0.00015 0.03105 -       -      
+## SF 0.00144 0.13416 0.60731 -      
+## SG 6.4e-07 0.00019 0.08722 0.03875
+## 
+## P value adjustment method: none</code></pre>
+<pre class="r"><code>pairwise.t.test(regseasonstats1$AST, regseasonstats1$POS, p.adj=&quot;none&quot;)</code></pre>
+<pre><code>## 
+##  Pairwise comparisons using t tests with pooled SD 
+## 
+## data:  regseasonstats1$AST and regseasonstats1$POS 
+## 
+##    C       PF      PG      SF     
+## PF 0.94878 -       -       -      
+## PG 0.00110 0.00034 -       -      
+## SF 0.49531 0.48844 0.00634 -      
+## SG 0.82886 0.86376 0.00035 0.57489
+## 
+## P value adjustment method: none</code></pre>
+<pre class="r"><code>pairwise.t.test(regseasonstats1$BLK, regseasonstats1$POS, p.adj=&quot;none&quot;)</code></pre>
+<pre><code>## 
+##  Pairwise comparisons using t tests with pooled SD 
+## 
+## data:  regseasonstats1$BLK and regseasonstats1$POS 
+## 
+##    C       PF      PG      SF     
+## PF 0.01979 -       -       -      
+## PG 8.8e-06 0.00508 -       -      
+## SF 3.0e-05 0.01092 0.96171 -      
+## SG 1.1e-06 0.00079 0.59572 0.59385
+## 
+## P value adjustment method: none</code></pre>
+<pre class="r"><code>pairwise.t.test(regseasonstats1$DD2, regseasonstats1$POS, p.adj=&quot;none&quot;)</code></pre>
+<pre><code>## 
+##  Pairwise comparisons using t tests with pooled SD 
+## 
+## data:  regseasonstats1$DD2 and regseasonstats1$POS 
+## 
+##    C       PF      PG      SF     
+## PF 0.02203 -       -       -      
+## PG 0.02416 0.96535 -       -      
+## SF 0.00236 0.26767 0.25119 -      
+## SG 0.00019 0.07088 0.06446 0.60141
+## 
+## P value adjustment method: none</code></pre>
+<pre class="r"><code>#new alpha
+.05/4</code></pre>
+<pre><code>## [1] 0.0125</code></pre>
+<pre class="r"><code>0.0125</code></pre>
+<pre><code>## [1] 0.0125</code></pre>
+<pre class="r"><code>#type1error
+1-(0.95)^4</code></pre>
+<pre><code>## [1] 0.1854938</code></pre>
+<pre class="r"><code>0.1854938</code></pre>
+<pre><code>## [1] 0.1854938</code></pre>
+<p>1 manova test, 15 univariate ANOVA tests, and 4 post-hoc tests were performed because 4 variables still showed to be significant even after the manova.With the 4 post-hoc tests, the new significance level is 0.0125, and the type I error is 0.1854938. Manova assumptions of random sampling and independent observations are expected/assumed to be met because each player listed has their own stat line and is not dependent on another player. However, because many variables are point related, ie. free throws made, points per game, three pointers made, etc., multicollinearity may not be met due to the dependent variables being more closely related to each other.</p>
+</div>
+<div id="pts-perform-some-kind-of-randomization-test-on-your-data-that-makes-sense.-this-can-be-anything-you-want-state-null-and-alternative-hypotheses-perform-the-test-and-interpret-the-results-7.-create-a-plot-visualizing-the-null-distribution-and-the-test-statistic-3." class="section level5">
+<h5>2.) (10 pts)** Perform some kind of randomization test on your data (that makes sense). This can be anything you want! State null and alternative hypotheses, perform the test, and interpret the results (7). Create a plot visualizing the null distribution and the test statistic (3).</h5>
+<pre class="r"><code>summary(aov(PTS~POS,data=regseasonstats))</code></pre>
+<pre><code>##             Df Sum Sq Mean Sq F value Pr(&gt;F)
+## POS          5  195.1   39.01   0.919  0.477
+## Residuals   45 1909.7   42.44</code></pre>
+<pre class="r"><code>fstat &lt;- 0.919
+    
+random &lt;-replicate(5000,{ 
+    new_PTS&lt;-regseasonstats1%&gt;%mutate(PTS=sample(PTS)) 
+    SSW&lt;- new_PTS%&gt;%group_by(POS)%&gt;%summarize(SSW=sum((PTS-mean(PTS))^2))%&gt;%
+    summarize(sum(SSW))%&gt;%pull
+    SSB&lt;- new_PTS%&gt;%mutate(mean=mean(PTS))%&gt;%group_by(POS)%&gt;%mutate(groupmean=mean(PTS))%&gt;%
+    summarize(SSB=sum((mean-groupmean)^2))%&gt;%summarize(sum(SSB))%&gt;%pull
+    (SSB/4)/(SSW/1054) 
+    })
+
+    mean(random&gt;fstat)</code></pre>
+<pre><code>## [1] 0.9974</code></pre>
+<pre class="r"><code>ggplot(regseasonstats1,aes(PTS,fill=POS))+geom_histogram(bins=10)+facet_wrap(~POS, ncol=2)+theme(legend.position=&quot;none&quot;)</code></pre>
+<p><img src="../project2_files/figure-html/unnamed-chunk-2-1.png" width="768" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>#H0: The mean average points per game scored is the same for all positions
+#HA: The mean average points per game scored is different for all positions</code></pre>
+<p>Because the f-statistic is greater than 0.05, we fail to reject the null hypothesis and conclude that each position scores a different amount of points per game on average. The graphs shown also help visualize the difference in the average amount of points scored per game.</p>
+</div>
+<div id="pts-build-a-linear-regression-model-predicting-one-of-your-response-variables-from-at-least-2-other-variables-including-their-interaction.-mean-center-any-numeric-variables-involved-in-the-interaction." class="section level5">
+<h5>3.) (35 pts)** Build a linear regression model predicting one of your response variables from at least 2 other variables, including their interaction. Mean-center any numeric variables involved in the interaction.</h5>
+<pre><code>- Interpret the coefficient estimates (do not discuss significance) (10)
+- Plot the regression using `ggplot()`. If your interaction is numeric by numeric, refer to code near the end of WS15 to make the plot. If you have 3 or more predictors, just chose two to plot for convenience. (8)
+- Check assumptions of linearity, normality, and homoskedasticity either graphically or using a hypothesis test (4)
+- Regardless, recompute regression results with robust standard errors via `coeftest(..., vcov=vcovHC(...))`. Discuss significance of results, including any changes from before/after robust SEs if applicable. (8)
+- What proportion of the variation in the outcome does your model explain? (4)</code></pre>
+<pre class="r"><code>library(lmtest)
+library(sandwich)
+ggplot(regseasonstats1, aes(x=PTS, y=MIN,group=POS))+geom_point(aes(color=POS))+
+geom_smooth(method=&quot;lm&quot;,formula=y~1,se=F,fullrange=T,aes(color=POS))</code></pre>
+<p><img src="../project2_files/figure-html/unnamed-chunk-3-1.png" width="768" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>fit&lt;-lm(MIN ~ PTS + POS, data=regseasonstats1)
+summary(fit)</code></pre>
+<pre><code>##
+## Call:
+## lm(formula = MIN ~ PTS + POS, data = regseasonstats1)
+##
+## Residuals:
+## Min 1Q Median 3Q Max
+## -6.6165 -1.8255 0.1713 1.9448 7.3246
+##
+## Coefficients:
+## Estimate Std. Error t value Pr(&gt;|t|)
+## (Intercept) 22.26924 1.57039 14.181 &lt; 2e-16 ***
+## PTS 0.45307 0.06625 6.838 1.97e-08 ***
+## POSPF 1.29879 1.40438 0.925 0.360
+## POSPG 1.18047 1.40146 0.842 0.404
+## POSSF 1.03906 1.50750 0.689 0.494
+## POSSG -0.74912 1.36040 -0.551 0.585
+## ---
+## Signif. codes: 0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1
+&#39; &#39; 1
+##
+## Residual standard error: 2.895 on 44 degrees of freedom
+## Multiple R-squared: 0.5389, Adjusted R-squared: 0.4865
+## F-statistic: 10.28 on 5 and 44 DF, p-value: 1.415e-06</code></pre>
+<pre class="r"><code>coeftest(fit)</code></pre>
+<pre><code>##
+## t test of coefficients:
+##
+## Estimate Std. Error t value Pr(&gt;|t|)
+## (Intercept) 22.269244 1.570386 14.1807 &lt; 2.2e-16 ***
+## PTS 0.453070 0.066254 6.8384 1.973e-08 ***
+## POSPF 1.298790 1.404384 0.9248 0.3601
+## POSPG 1.180474 1.401456 0.8423 0.4042
+## POSSF 1.039061 1.507497 0.6893 0.4943
+## POSSG -0.749117 1.360400 -0.5507 0.5847
+## ---
+## Signif. codes: 0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1
+&#39; &#39; 1</code></pre>
+<pre class="r"><code>#assumptions
+resids&lt;-fit$residuals
+fitvals&lt;-fit$fitted.values
+ggplot()+geom_point(aes(fitvals,resids))+geom_hline(yintercept=0, color=&#39;red&#39;)</code></pre>
+<p><img src="../project2_files/figure-html/unnamed-chunk-3-2.png" width="768" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>ggplot()+geom_histogram(aes(resids), bins = 25)</code></pre>
+<p><img src="../project2_files/figure-html/unnamed-chunk-3-3.png" width="768" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>coeftest(fit, vcov = vcovHC(fit))</code></pre>
+<pre><code>##
+## t test of coefficients:
+##
+## Estimate Std. Error t value Pr(&gt;|t|)
+## (Intercept) 22.269244 1.817126 12.2552 8.826e-16 ***
+## PTS 0.453070 0.080829 5.6053 1.279e-06 ***
+## POSPF 1.298790 1.541580 0.8425 0.4041
+## POSPG 1.180474 1.406512 0.8393 0.4058
+## POSSF 1.039061 1.280118 0.8117 0.4213
+## POSSG -0.749117 1.430536 -0.5237 0.6031
+## ---
+## Signif. codes: 0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1
+&#39; &#39; 1</code></pre>
+<p>All assumptions check out. Normality is confirmed with the histogram and linearity and homoskedacity are both confirmed using a scatterplot with regression. Because the coefficient estimates all show an absolute value of 0.45-1.3, the difference between average minutes played and average points scored per game is significant when comparing each position. The original coeftest and robust coeftest are fairly similar to each other with most values differing only about 0.1. Each position has a standard error coefficiant ranging between ~1.3 - 1.6, meaning that each position is very different from the actual average amount of points scored and minutes played per player. The t-value estimate for each position for both average minutes played and average points scored are all fairly high, ranging from ~ -0.5 - 0.95, showing that the averages for each position are all different from each other. Each p-value per each position is significantly greater than 0.05, further confirming the significant difference amongst variables when controlling for position. My model explains 53.89% of the variation amongst the variables.</p>
+</div>
+<div id="pts-rerun-same-regression-model-with-interaction-but-this-time-compute-bootstrapped-standard-errors.-discuss-any-changes-you-observe-in-ses-and-p-values-using-these-ses-compared-to-the-original-ses-and-the-robust-ses" class="section level5">
+<h5>4.) (5 pts)** Rerun same regression model (with interaction), but this time compute bootstrapped standard errors. Discuss any changes you observe in SEs and p-values using these SEs compared to the original SEs and the robust SEs)</h5>
+<pre class="r"><code>fit&lt;-lm(MIN~PTS*POS,data=regseasonstats1)
+resids&lt;-fit$residuals
+fitted&lt;-fit$fitted.values
+resid_resamp&lt;-replicate(5000,{
+    new_resids&lt;-sample(resids,replace=TRUE)
+    regseasonstats1$MIN&lt;-fitted+new_resids 
+    fit&lt;-lm(MIN~PTS*POS,data=regseasonstats1)
+    coef(fit) 
+    })
+resid_resamp%&gt;%t%&gt;%as.data.frame%&gt;%summarize_all(sd)</code></pre>
+<pre><code>## (Intercept) PTS POSPF POSPG POSSF POSSG PTS:POSPF
+PTS:POSPG PTS:POSSF PTS:POSSG
+## 1 3.267499 0.1847995 3.841101 4.006383 4.724492 3.688889
+0.223071 0.2210343 0.2511846 0.2033196</code></pre>
+<p>After bootstrapping for standard errors, the standard error has further increased from the original and robust standard errors for all positions - increases ranging from ~0.5-1.0.</p>
+</div>
+<div id="pts-perform-a-logistic-regression-predicting-a-binary-categorical-variable-if-you-dont-have-one-makeget-one-from-at-least-two-explanatory-variables-interaction-not-necessary." class="section level5">
+<h5>5.) (40 pts)** Perform a logistic regression predicting a binary categorical variable (if you don’t have one, make/get one) from at least two explanatory variables (interaction not necessary).</h5>
+<pre><code>- Interpret coefficient estimates in context (10)
+- Report a confusion matrix for your logistic regression (2)
+- Compute and discuss the Accuracy, Sensitivity (TPR), Specificity (TNR), and Recall (PPV) of your model (5)
+- Using ggplot, plot density of log-odds (logit) by your binary outcome variable (3)
+- Generate an ROC curve (plot) and calculate AUC (either manually or with a package); interpret (10)
+- Perform 10-fold (or repeated random sub-sampling) CV and report average out-of-sample Accuracy, Sensitivity, and Recall (10)</code></pre>
+<pre class="r"><code>library(pROC)
+library(plotROC)
+library(tidyverse)  
+library(lmtest)
+binaryvar&lt;-regseasonstats%&gt;%mutate(y=ifelse(POS==&quot;PG&quot;,1,0))
+reg5 &lt;- glm(y~GP+PTS, data= binaryvar, family =binomial(link=&quot;logit&quot;))
+summary(reg5)</code></pre>
+<pre><code>##
+## Call:
+## glm(formula = y ~ GP + PTS, family = binomial(link =
+&quot;logit&quot;),
+## data = binaryvar)
+##
+## Deviance Residuals:
+## Min 1Q Median 3Q Max
+## -1.1548 -0.7480 -0.5962 -0.4466 2.0082
+##
+## Coefficients:
+## Estimate Std. Error z value Pr(&gt;|z|)
+## (Intercept) 3.72660 3.53593 1.054 0.292
+## GP -0.07824 0.05110 -1.531 0.126
+## PTS 0.03437 0.05366 0.640 0.522
+##
+## (Dispersion parameter for binomial family taken to be 1)
+##
+## Null deviance: 53.182 on 50 degrees of freedom
+## Residual deviance: 50.612 on 48 degrees of freedom
+## AIC: 56.612
+##
+## Number of Fisher Scoring iterations: 4</code></pre>
+<pre class="r"><code>coeftest(reg5)</code></pre>
+<pre><code>## 
+## z test of coefficients:
+## 
+##              Estimate Std. Error z value Pr(&gt;|z|)
+## (Intercept)  3.726596   3.535932  1.0539   0.2919
+## GP          -0.078239   0.051099 -1.5311   0.1257
+## PTS          0.034369   0.053663  0.6405   0.5219</code></pre>
+<pre class="r"><code>exp(coef(reg5))</code></pre>
+<pre><code>## (Intercept)          GP         PTS 
+##  41.5374901   0.9247432   1.0349661</code></pre>
+<pre class="r"><code>probability &lt;- predict(reg5, type = &quot;response&quot;)
+table(predict = as.numeric(probability &gt;0.3), truth=binaryvar$y)%&gt;%addmargins</code></pre>
+<pre><code>##        truth
+## predict  0  1 Sum
+##     0   35  7  42
+##     1    5  4   9
+##     Sum 40 11  51</code></pre>
+<pre class="r"><code>#accuracy
+(35+4)/51</code></pre>
+<pre><code>## [1] 0.7647059</code></pre>
+<pre class="r"><code>#sensitivity
+35/42</code></pre>
+<pre><code>## [1] 0.8333333</code></pre>
+<pre class="r"><code>#specificity
+4/11</code></pre>
+<pre><code>## [1] 0.3636364</code></pre>
+<pre class="r"><code>#recall
+35/40</code></pre>
+<pre><code>## [1] 0.875</code></pre>
+<pre class="r"><code>reg_plot&lt;-ggplot(reg5)+geom_roc(aes(d=y,m=reg5$linear.predictors), n.cuts=0)
+reg_plot</code></pre>
+<p><img src="../project2_files/figure-html/unnamed-chunk-5-1.png" width="768" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>#AUC
+calc_auc(reg_plot)</code></pre>
+<pre><code>##   PANEL group       AUC
+## 1     1    -1 0.6590909</code></pre>
+<pre class="r"><code>set.seed(1234)
+k=10
+data &lt;- binaryvar %&gt;% sample_frac 
+folds &lt;- ntile(1:nrow(data),n=10) 
+diags&lt;-NULL
+for(i in 1:k){
+train &lt;- data[folds!=i,] #create training set (all but fold i)
+test &lt;- data[folds==i,] #create test set (just fold i)
+truth &lt;- test$POS #save truth labels from fold i
+fit &lt;- glm(y~GP+PTS,
+data=binaryvar, family=&quot;binomial&quot;)
+probs &lt;- predict(fit, newdata=test, type=&quot;response&quot;)
+diags&lt;-rbind(diags,class_diag(probs,truth))
+}
+summarize_all(diags,mean)</code></pre>
+<pre><code>##         acc sens spec ppv auc
+## 1 0.3366667    0    1 NaN  NA</code></pre>
+<pre class="r"><code>#out of sample
+#accuracy
+0.3366667   </code></pre>
+<pre><code>## [1] 0.3366667</code></pre>
+<pre class="r"><code>#sensitivity
+0   </code></pre>
+<pre><code>## [1] 0</code></pre>
+<pre class="r"><code>#recall
+NaN</code></pre>
+<pre><code>## [1] NaN</code></pre>
+<p>Each position has a estimate coefficiant for games played and average points scored of 0.9247 and 1.0349 respectively. Because the values are both close to 1, the variables can be assumed to be closely directly proportional. Accuracy - (0.76471): The model generated is 75.47% accurate with predicting the relation between position with games played and average points scored per game. Making the model fairly reliable, but not completely. Sensitivity - (0.83333): The model generated a sensitivity of 83.33%, giving a more accurate percentage/proportion of correctly identified predictions. Specificity - (0.3636364): The model generated a specificity of 36.36%, giving an accurate percentage of those predictions that are likely to be incorrect. Recall - (0.875): Because this calculation is near 1, is it safe to say that the information and predictions given are very related due to the slope of the recall graph being 0.875. Average out-of-sample accuracy- (0.3366667). Average out-of-sample sensitivity- (0). Average out-of-sample recall- (NaN).</p>
+</div>
+<div id="pts-choose-one-variable-you-want-to-predict-can-be-one-you-used-from-before-either-binary-or-continuous-and-run-a-lasso-regression-inputting-all-the-rest-of-your-variables-as-predictors.-choose-lambda-to-give-the-simplest-model-whose-accuracy-is-near-that-of-the-best-i.e.-lambda.1se.-discuss-which-variables-are-retained.-perform-10-fold-cv-using-this-model-if-response-in-binary-compare-models-out-of-sample-accuracy-to-that-of-your-logistic-regression-in-part-5-if-response-is-numeric-compare-the-residual-standard-error-at-the-bottom-of-the-summary-output-aka-rmse-lower-is-better-fit" class="section level5">
+<h5>6.) (10 pts)** Choose one variable you want to predict (can be one you used from before; either binary or continuous) and run a LASSO regression inputting all the rest of your variables as predictors. Choose lambda to give the simplest model whose accuracy is near that of the best (i.e., <code>lambda.1se</code>). Discuss which variables are retained. Perform 10-fold CV using this model: if response in binary, compare model’s out-of-sample accuracy to that of your logistic regression in part 5; if response is numeric, compare the residual standard error (at the bottom of the summary output, aka RMSE): lower is better fit!</h5>
+<pre class="r"><code>library(glmnet)
+number6 &lt;- binaryvar %&gt;% select(-2, -8, -9)
+set.seed(1234)
+x &lt;- model.matrix(Name~., data = number6)[,-1]
+y &lt;- as.matrix(number6$FTM)
+head(x)</code></pre>
+<pre><code>## Rank POSF POSPF POSPG POSSF POSSG GP MIN PTS `FG%` `3PM`
+`3PA` `3P%` FTM FTA `FT%` REB AST
+## 1 1 0 0 0 0 1 78 36.8 36.1 44.2 4.8 13.2 36.8 9.7 11.0
+87.9 6.6 7.5
+## 2 2 0 0 0 0 1 77 36.9 28.0 43.8 3.8 9.8 38.6 5.9 7.0
+83.9 8.2 4.1
+## 3 3 0 1 0 0 0 72 32.8 27.7 57.8 0.7 2.8 25.6 6.9 9.5
+72.9 12.5 5.9
+## 4 4 0 0 0 0 0 64 33.7 27.5 48.4 1.2 4.1 30.0 8.2 10.1
+80.4 13.6 3.7
+## 5 5 0 0 1 0 0 69 33.8 27.3 47.2 5.1 11.7 43.7 3.8 4.2
+91.6 5.3 5.2
+## 6 6 0 0 0 1 0 60 34.0 26.6 49.6 1.9 5.0 37.1 6.1 7.1
+85.4 7.3 3.3
+## STL BLK TO DD2 TD3 PER y
+## 1 2.0 0.7 5.0 34 7 30.62 0
+## 2 2.2 0.4 2.7 24 1 23.32 0
+## 3 1.3 1.5 3.7 54 5 30.95 0
+## 4 0.7 1.9 3.5 58 2 26.21 0
+## 5 1.3 0.4 2.8 3 0 24.45 1
+## 6 1.8 0.4 2.0 14 0 25.89 0</code></pre>
+<pre class="r"><code>cv &lt;- cv.glmnet(x,y)
+lasso &lt;- glmnet(x,y, lambda = cv$lambda.1se)
+coef(lasso)</code></pre>
+<pre><code>## 26 x 1 sparse Matrix of class &quot;dgCMatrix&quot;
+##                    s0
+## (Intercept) 0.1098108
+## Rank        .        
+## POSF        .        
+## POSPF       .        
+## POSPG       .        
+## POSSF       .        
+## POSSG       .        
+## GP          .        
+## MIN         .        
+## PTS         .        
+## `FG%`       .        
+## `3PM`       .        
+## `3PA`       .        
+## `3P%`       .        
+## FTM         0.9648881
+## FTA         .        
+## `FT%`       .        
+## REB         .        
+## AST         .        
+## STL         .        
+## BLK         .        
+## TO          .        
+## DD2         .        
+## TD3         .        
+## PER         .        
+## y           .</code></pre>
+<pre class="r"><code>#10 fold cv
+set.seed(1234)
+k=10
+data &lt;- binaryvar %&gt;% sample_frac 
+folds &lt;- ntile(1:nrow(data),n=10) 
+diags&lt;-NULL
+for(i in 1:k){
+train &lt;- data[folds!=i,] #create training set (all but fold i)
+test &lt;- data[folds==i,] #create test set (just fold i)
+truth &lt;- test$POS #save truth labels from fold i
+fit &lt;- glm(y~PTS+REB+AST+BLK,
+data=binaryvar, family=&quot;binomial&quot;)
+probs &lt;- predict(fit, newdata=test, type=&quot;response&quot;)
+diags&lt;-rbind(diags,class_diag(probs,truth))
+}
+summarize_all(diags,mean)</code></pre>
+<pre><code>##         acc sens      spec ppv auc
+## 1 0.3366667  0.3 0.9166667 NaN  NA</code></pre>
+<pre class="r"><code>#accuracy
+0.3366667   </code></pre>
+<pre><code>## [1] 0.3366667</code></pre>
+<p>The calculated AUC for the 10-fold cv resulted in “NA”. I believe this is because of the subcategories within my POS categorical variable; ie. the five different positions, not only and ‘yes’ or ‘no’ variable. The accuracy calculated to this 10-fold cv is 0.3366667, which is the same as the accuracy calculated in number 5. Because these accuracies are fairly low, position is not very reliable when predicting any game statistics and splitting the data into smaller/more specific groups.</p>
+</div>
+</div>
+</div>
+
+              <hr>
+              <div class="related-posts">
+                <h5>Related Posts</h5>
+                
+              </div>
+            </div>
+          </div>
+          <hr>
+        <div class="disqus">
+  <div id="disqus_thread"></div>
+  <script type="text/javascript">
+
+    (function() {
+      
+      
+      if (window.location.hostname == "localhost")
+        return;
+
+      var disqus_shortname = '';
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  <a href="http://disqus.com/" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+        </div>
+      </div>
+      
+    </div>
+
+    
+    <footer>
+  <div id="footer">
+    <div class="container">
+      <p class="text-muted">&copy; All rights reserved. Powered by <a href="https://gohugo.io/">Hugo</a> and
+      <a href="http://www.github.com/nurlansu/hugo-sustain/">sustain</a> with ♥</p>
+    </div>
+  </div>
+</footer>
+<div class="footer"></div>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="../js/docs.min.js"></script>
+<script src="../js/main.js"></script>
+
+<script src="../js/ie10-viewport-bug-workaround.js"></script>
+
+
+    
+  </body>
+</html>

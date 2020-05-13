@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="Heather Seiders " />
+    <meta name="description" content="Describe your website">
+    <link rel="shortcut icon" type="image/x-icon" href="../img/favicon.ico">
+    <title>Project 1: Exploratory Data Analysis</title>
+    <meta name="generator" content="Hugo 0.70.0" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="../css/main.css" />
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,400,200bold,400old" />
+    
+    <!--[if lt IE 9]>
+			<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+			<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+		<![endif]-->
+
+    
+  </head>
+
+  <body>
+    <div id="wrap">
+
+      
+      <nav class="navbar navbar-default">
+  <div class="container">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="../"><i class="fa fa-home"></i></a>
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <div class="navbar-collapse collapse" id="navbar">
+      <ul class="nav navbar-nav navbar-right">
+      
+        
+        <li><a href="../blog/">BLOG</a></li>
+        
+        <li><a href="../projects/">PROJECTS</a></li>
+        
+        <li><a href="resume.docx">RESUME</a></li>
+        
+      
+      </ul>
+    </div>
+  </div>
+</nav>
+
+      
+      <div class="container">
+        <div class="blog-post">
+          <h3>
+            <strong><a href="../project1/">Project 1: Exploratory Data Analysis</a></strong>
+          </h3>
+        </div>
+        <div class="blog-title">
+          <h4>
+          January 1, 0001
+            &nbsp;&nbsp;
+            
+          </h4>
+        </div>
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <div class="blogpost">
+              
+
+
+<p>Heather Seiders hms2364</p>
+<div id="introduction" class="section level5">
+<h5>0. Introduction</h5>
+<p>The datasets, regseasonstats and postseasonstats1 are both National Basketball Association player game statistics during the 2018-2019 basketball season. Players included in each of the datasets played 70% or more of their teams games and played at least 5 playoff games. The regseasonstats2 data observes the top 51 players from the regular season that made playoff appearances ranked by ESPN, and the postseasonstats2 data observes those that met the same 70% or more of all games played and also participated in at least 5 postseason games.There are 24 variables in both datasets have the same variables - all statistics from during game play, ie: position, games played, minutes per game, average points per game, assists, etc. With the data, some potential associations may be more higher ranked players on the same team may play more games in the postseason and high scoring players in the regular season may score more points during the post season. These assumptions are made based on player conistency through the regular season being reflected during the post season. Statistics on NBA players was interesting to me because I am currently playing fantasy basketball with my boyfriend and some friends. I do not really know much about the game and its players, but my fantasy team in currently in first, so I thought it would be fun to actaully know some player statistics.</p>
+</div>
+<div id="tidying-rearranging-widelong" class="section level5">
+<h5>1.) Tidying: Rearranging Wide/Long</h5>
+<pre class="r"><code>library(readxl)
+library(dplyr)
+library(tidyverse)
+
+postseasonstats1 &lt;- read_excel(&quot;postseasonstats1.xlsx&quot;)
+str(postseasonstats1)</code></pre>
+<pre><code>## Classes &#39;tbl_df&#39;, &#39;tbl&#39; and &#39;data.frame&#39;:    51 obs. of  24 variables:
+##  $ Name: chr  &quot;Kevin Durant&quot; &quot;James Harden&quot; &quot;Kawhi Leonard&quot; &quot;Paul George&quot; ...
+##  $ Team: chr  &quot;GS&quot; &quot;HOU&quot; &quot;TOR&quot; &quot;OKC&quot; ...
+##  $ Rank: num  1 2 3 4 5 6 7 8 9 10 ...
+##  $ POS : chr  &quot;SF&quot; &quot;SG&quot; &quot;SF&quot; &quot;SG&quot; ...
+##  $ GP  : num  12 11 24 5 22 16 15 14 16 5 ...
+##  $ MIN : num  36.8 38.5 39.1 40.8 38.5 40.6 34.3 39.8 39.7 39.4 ...
+##  $ PTS : num  32.3 31.6 30.5 28.6 28.2 26.9 25.5 25.1 24.7 22.8 ...
+##  $ FGM : num  10.4 9.9 10.1 8.8 8.6 8.6 8.6 9.4 9.6 8 ...
+##  $ FGA : num  20.3 24 20.7 20.2 19.6 20.6 17.4 18.6 21.9 22.2 ...
+##  $ FG% : num  51.4 41.3 49 43.6 44.1 41.8 49.4 50.6 44 36 ...
+##  $ 3PM : num  2.9 4.4 2.3 3 4.2 3.7 1.2 1.6 2.9 2.2 ...
+##  $ 3PA : num  6.7 12.5 6 9.4 11.1 9.9 3.7 4 7.3 6.8 ...
+##  $ 3P% : num  43.8 35 37.9 31.9 37.7 37.3 32.7 39.3 39.3 32.4 ...
+##  $ FTM : num  8.5 7.5 8 8 6.7 5.9 7.1 4.7 2.6 4.6 ...
+##  $ FTA : num  9.4 8.9 9 9.8 7.1 7.1 11.2 5.6 3.5 5.2 ...
+##  $ FT% : num  90.3 83.7 88.4 81.6 94.3 83.3 63.7 84.6 73.2 88.5 ...
+##  $ REB : num  4.9 6.8 9.1 8.6 6 4.8 12.2 13 5 9 ...
+##  $ AST : num  4.5 6.6 3.9 3.6 5.7 6.6 4.9 8.4 3.7 10.6 ...
+##  $ STL : num  1.1 2.2 1.7 1.4 1.1 1.7 1.2 1.1 0.8 1 ...
+##  $ BLK : num  1 0.9 0.7 0.2 0.2 0.3 2 0.9 0.6 0.6 ...
+##  $ TO  : num  3.6 4.6 3.1 4.2 3 3.8 3.3 2.6 1.9 4.6 ...
+##  $ DD2 : num  0 4 9 2 3 3 10 12 0 4 ...
+##  $ TD3 : num  0 1 0 0 1 0 0 4 0 2 ...
+##  $ PER : num  26.9 25.3 28 18.6 22.7 ...</code></pre>
+<pre class="r"><code>regseasonstats &lt;- read_excel(&quot;regseasonstats.xlsx&quot;)
+str(regseasonstats)</code></pre>
+<pre><code>## Classes &#39;tbl_df&#39;, &#39;tbl&#39; and &#39;data.frame&#39;:    51 obs. of  24 variables:
+##  $ Name: chr  &quot;James Harden&quot; &quot;Paul George&quot; &quot;Giannis Antetokounmpo&quot; &quot;Joel Embiid&quot; ...
+##  $ Team: chr  &quot;HOU&quot; &quot;OKC&quot; &quot;MIL&quot; &quot;PHI&quot; ...
+##  $ Rank: num  1 2 3 4 5 6 8 9 14 15 ...
+##  $ POS : chr  &quot;SG&quot; &quot;SG&quot; &quot;PF&quot; &quot;C&quot; ...
+##  $ GP  : num  78 77 72 64 69 60 78 80 67 77 ...
+##  $ MIN : num  36.8 36.9 32.8 33.7 33.8 34 34.6 35.5 33 33.7 ...
+##  $ PTS : num  36.1 28 27.7 27.5 27.3 26.6 26 25.8 23.8 23.8 ...
+##  $ FGM : num  10.8 9.2 10 9.1 9.2 9.3 9.2 8.5 9 8.6 ...
+##  $ FGA : num  24.5 21 17.3 18.7 19.4 18.8 17.7 19.2 18.5 19.9 ...
+##  $ FG% : num  44.2 43.8 57.8 48.4 47.2 49.6 52.1 44.4 48.7 43.2 ...
+##  $ 3PM : num  4.8 3.8 0.7 1.2 5.1 1.9 1.8 3 2.6 2.4 ...
+##  $ 3PA : num  13.2 9.8 2.8 4.1 11.7 5 5 8 6.5 6.7 ...
+##  $ 3P% : num  36.8 38.6 25.6 30 43.7 37.1 35.3 36.9 40.1 36.2 ...
+##  $ FTM : num  9.7 5.9 6.9 8.2 3.8 6.1 5.7 5.9 3.2 4.1 ...
+##  $ FTA : num  11 7 9.5 10.1 4.2 7.1 6.5 6.4 3.7 5.1 ...
+##  $ FT% : num  87.9 83.9 72.9 80.4 91.6 85.4 88.5 91.2 87.3 80.6 ...
+##  $ REB : num  6.6 8.2 12.5 13.6 5.3 7.3 6.4 4.6 5 4.1 ...
+##  $ AST : num  7.5 4.1 5.9 3.7 5.2 3.3 5.9 6.9 6.9 4.2 ...
+##  $ STL : num  2 2.2 1.3 0.7 1.3 1.8 0.7 1.1 1.5 1.4 ...
+##  $ BLK : num  0.7 0.4 1.5 1.9 0.4 0.4 1.1 0.4 0.5 0.4 ...
+##  $ TO  : num  5 2.7 3.7 3.5 2.8 2 2.9 2.7 2.6 2.8 ...
+##  $ DD2 : num  34 24 54 58 3 14 16 13 21 1 ...
+##  $ TD3 : num  7 1 5 2 0 0 2 0 1 0 ...
+##  $ PER : num  30.6 23.3 30.9 26.2 24.4 ...</code></pre>
+<pre class="r"><code>postseasonstats1 %&gt;% pivot_wider(names_from = &quot;Name&quot;, values_from = &quot;GP&quot;)</code></pre>
+<pre><code>## # A tibble: 51 x 73
+##    Team   Rank POS     MIN   PTS   FGM   FGA `FG%` `3PM` `3PA` `3P%`   FTM   FTA
+##    &lt;chr&gt; &lt;dbl&gt; &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+##  1 GS        1 SF     36.8  32.3  10.4  20.3  51.4   2.9   6.7  43.8   8.5   9.4
+##  2 HOU       2 SG     38.5  31.6   9.9  24    41.3   4.4  12.5  35     7.5   8.9
+##  3 TOR       3 SF     39.1  30.5  10.1  20.7  49     2.3   6    37.9   8     9  
+##  4 OKC       4 SG     40.8  28.6   8.8  20.2  43.6   3     9.4  31.9   8     9.8
+##  5 GS        5 PG     38.5  28.2   8.6  19.6  44.1   4.2  11.1  37.7   6.7   7.1
+##  6 POR       6 PG     40.6  26.9   8.6  20.6  41.8   3.7   9.9  37.3   5.9   7.1
+##  7 MIL       7 PF     34.3  25.5   8.6  17.4  49.4   1.2   3.7  32.7   7.1  11.2
+##  8 DEN       8 C      39.8  25.1   9.4  18.6  50.6   1.6   4    39.3   4.7   5.6
+##  9 POR       9 SG     39.7  24.7   9.6  21.9  44     2.9   7.3  39.3   2.6   3.5
+## 10 OKC      10 PG     39.4  22.8   8    22.2  36     2.2   6.8  32.4   4.6   5.2
+## # … with 41 more rows, and 60 more variables: `FT%` &lt;dbl&gt;, REB &lt;dbl&gt;,
+## #   AST &lt;dbl&gt;, STL &lt;dbl&gt;, BLK &lt;dbl&gt;, TO &lt;dbl&gt;, DD2 &lt;dbl&gt;, TD3 &lt;dbl&gt;, PER &lt;dbl&gt;,
+## #   `Kevin Durant` &lt;dbl&gt;, `James Harden` &lt;dbl&gt;, `Kawhi Leonard` &lt;dbl&gt;, `Paul
+## #   George` &lt;dbl&gt;, `Stephen Curry` &lt;dbl&gt;, `Damian Lillard` &lt;dbl&gt;, `Giannis
+## #   Antetokounmpo` &lt;dbl&gt;, `Nikola Jokic` &lt;dbl&gt;, `CJ McCollum` &lt;dbl&gt;, `Russell
+## #   Westbrook` &lt;dbl&gt;, `DeMar DeRozan` &lt;dbl&gt;, `Lou Williams` &lt;dbl&gt;, `Donovan
+## #   Mitchell` &lt;dbl&gt;, `Kyrie Irving` &lt;dbl&gt;, `Jamal Murray` &lt;dbl&gt;, `Klay
+## #   Thompson` &lt;dbl&gt;, `Joel Embiid` &lt;dbl&gt;, `LaMarcus Aldridge` &lt;dbl&gt;, `Danilo
+## #   Gallinari` &lt;dbl&gt;, `Jimmy Butler` &lt;dbl&gt;, `Pascal Siakam` &lt;dbl&gt;, `Montrezl
+## #   Harrell` &lt;dbl&gt;, `Eric Gordon` &lt;dbl&gt;, `Chris Paul` &lt;dbl&gt;, `Khris
+## #   Middleton` &lt;dbl&gt;, `Tobias Harris` &lt;dbl&gt;, `Jayson Tatum` &lt;dbl&gt;, `Derrick
+## #   White` &lt;dbl&gt;, `Kyle Lowry` &lt;dbl&gt;, `Paul Millsap` &lt;dbl&gt;, `Ben
+## #   Simmons` &lt;dbl&gt;, `Al Horford` &lt;dbl&gt;, `Jaylen Brown` &lt;dbl&gt;, `Eric
+## #   Bledsoe` &lt;dbl&gt;, `Marcus Morris Sr.` &lt;dbl&gt;, `JJ Redick` &lt;dbl&gt;, `Draymond
+## #   Green` &lt;dbl&gt;, `George Hill` &lt;dbl&gt;, `Enes Kanter` &lt;dbl&gt;, `P.J.
+## #   Tucker` &lt;dbl&gt;, `Brook Lopez` &lt;dbl&gt;, `Rodney Hood` &lt;dbl&gt;, `Clint
+## #   Capela` &lt;dbl&gt;, `Marc Gasol` &lt;dbl&gt;, `Serge Ibaka` &lt;dbl&gt;, `Maurice
+## #   Harkless` &lt;dbl&gt;, `Malik Beasley` &lt;dbl&gt;, `Fred VanVleet` &lt;dbl&gt;, `Al-Farouq
+## #   Aminu` &lt;dbl&gt;, `Danny Green` &lt;dbl&gt;, `Norman Powell` &lt;dbl&gt;</code></pre>
+<pre class="r"><code>postseasonstats1 %&gt;% pivot_longer(c(&quot;GP&quot;), names_to = &quot;Games&quot;, 
+    values_to = &quot;Games Played&quot;)</code></pre>
+<pre><code>## # A tibble: 51 x 25
+##    Name  Team   Rank POS     MIN   PTS   FGM   FGA `FG%` `3PM` `3PA` `3P%`   FTM
+##    &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt; &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+##  1 Kevi… GS        1 SF     36.8  32.3  10.4  20.3  51.4   2.9   6.7  43.8   8.5
+##  2 Jame… HOU       2 SG     38.5  31.6   9.9  24    41.3   4.4  12.5  35     7.5
+##  3 Kawh… TOR       3 SF     39.1  30.5  10.1  20.7  49     2.3   6    37.9   8  
+##  4 Paul… OKC       4 SG     40.8  28.6   8.8  20.2  43.6   3     9.4  31.9   8  
+##  5 Step… GS        5 PG     38.5  28.2   8.6  19.6  44.1   4.2  11.1  37.7   6.7
+##  6 Dami… POR       6 PG     40.6  26.9   8.6  20.6  41.8   3.7   9.9  37.3   5.9
+##  7 Gian… MIL       7 PF     34.3  25.5   8.6  17.4  49.4   1.2   3.7  32.7   7.1
+##  8 Niko… DEN       8 C      39.8  25.1   9.4  18.6  50.6   1.6   4    39.3   4.7
+##  9 CJ M… POR       9 SG     39.7  24.7   9.6  21.9  44     2.9   7.3  39.3   2.6
+## 10 Russ… OKC      10 PG     39.4  22.8   8    22.2  36     2.2   6.8  32.4   4.6
+## # … with 41 more rows, and 12 more variables: FTA &lt;dbl&gt;, `FT%` &lt;dbl&gt;,
+## #   REB &lt;dbl&gt;, AST &lt;dbl&gt;, STL &lt;dbl&gt;, BLK &lt;dbl&gt;, TO &lt;dbl&gt;, DD2 &lt;dbl&gt;, TD3 &lt;dbl&gt;,
+## #   PER &lt;dbl&gt;, Games &lt;chr&gt;, `Games Played` &lt;dbl&gt;</code></pre>
+<pre class="r"><code>regseasonstats %&gt;% pivot_wider(names_from = &quot;Name&quot;, values_from = &quot;GP&quot;)</code></pre>
+<pre><code>## # A tibble: 51 x 73
+##    Team   Rank POS     MIN   PTS   FGM   FGA `FG%` `3PM` `3PA` `3P%`   FTM   FTA
+##    &lt;chr&gt; &lt;dbl&gt; &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+##  1 HOU       1 SG     36.8  36.1  10.8  24.5  44.2   4.8  13.2  36.8   9.7  11  
+##  2 OKC       2 SG     36.9  28     9.2  21    43.8   3.8   9.8  38.6   5.9   7  
+##  3 MIL       3 PF     32.8  27.7  10    17.3  57.8   0.7   2.8  25.6   6.9   9.5
+##  4 PHI       4 C      33.7  27.5   9.1  18.7  48.4   1.2   4.1  30     8.2  10.1
+##  5 GS        5 PG     33.8  27.3   9.2  19.4  47.2   5.1  11.7  43.7   3.8   4.2
+##  6 TOR       6 SF     34    26.6   9.3  18.8  49.6   1.9   5    37.1   6.1   7.1
+##  7 GS        8 SF     34.6  26     9.2  17.7  52.1   1.8   5    35.3   5.7   6.5
+##  8 POR       9 PG     35.5  25.8   8.5  19.2  44.4   3     8    36.9   5.9   6.4
+##  9 BOS      14 PG     33    23.8   9    18.5  48.7   2.6   6.5  40.1   3.2   3.7
+## 10 UTAH     15 SG     33.7  23.8   8.6  19.9  43.2   2.4   6.7  36.2   4.1   5.1
+## # … with 41 more rows, and 60 more variables: `FT%` &lt;dbl&gt;, REB &lt;dbl&gt;,
+## #   AST &lt;dbl&gt;, STL &lt;dbl&gt;, BLK &lt;dbl&gt;, TO &lt;dbl&gt;, DD2 &lt;dbl&gt;, TD3 &lt;dbl&gt;, PER &lt;dbl&gt;,
+## #   `James Harden` &lt;dbl&gt;, `Paul George` &lt;dbl&gt;, `Giannis Antetokounmpo` &lt;dbl&gt;,
+## #   `Joel Embiid` &lt;dbl&gt;, `Stephen Curry` &lt;dbl&gt;, `Kawhi Leonard` &lt;dbl&gt;, `Kevin
+## #   Durant` &lt;dbl&gt;, `Damian Lillard` &lt;dbl&gt;, `Kyrie Irving` &lt;dbl&gt;, `Donovan
+## #   Mitchell` &lt;dbl&gt;, `Russell Westbrook` &lt;dbl&gt;, `Klay Thompson` &lt;dbl&gt;,
+## #   `LaMarcus Aldridge` &lt;dbl&gt;, `DeMar DeRozan` &lt;dbl&gt;, `CJ McCollum` &lt;dbl&gt;,
+## #   `Nikola Jokic` &lt;dbl&gt;, `Tobias Harris` &lt;dbl&gt;, `Lou Williams` &lt;dbl&gt;, `Danilo
+## #   Gallinari` &lt;dbl&gt;, `Jimmy Butler` &lt;dbl&gt;, `Khris Middleton` &lt;dbl&gt;, `Jamal
+## #   Murray` &lt;dbl&gt;, `JJ Redick` &lt;dbl&gt;, `Pascal Siakam` &lt;dbl&gt;, `Ben
+## #   Simmons` &lt;dbl&gt;, `Clint Capela` &lt;dbl&gt;, `Montrezl Harrell` &lt;dbl&gt;, `Eric
+## #   Gordon` &lt;dbl&gt;, `Eric Bledsoe` &lt;dbl&gt;, `Jayson Tatum` &lt;dbl&gt;, `Chris
+## #   Paul` &lt;dbl&gt;, `Serge Ibaka` &lt;dbl&gt;, `Kyle Lowry` &lt;dbl&gt;, `Marcus Morris
+## #   Sr.` &lt;dbl&gt;, `Enes Kanter` &lt;dbl&gt;, `Al Horford` &lt;dbl&gt;, `Marc Gasol` &lt;dbl&gt;,
+## #   `Jaylen Brown` &lt;dbl&gt;, `Paul Millsap` &lt;dbl&gt;, `Brook Lopez` &lt;dbl&gt;, `Derrick
+## #   White` &lt;dbl&gt;, `Draymond Green` &lt;dbl&gt;, `George Hill` &lt;dbl&gt;, `P.J.
+## #   Tucker` &lt;dbl&gt;, `Rodney Hood` &lt;dbl&gt;, `Maurice Harkless` &lt;dbl&gt;, `Malik
+## #   Beasley` &lt;dbl&gt;, `Fred VanVleet` &lt;dbl&gt;, `Al-Farouq Aminu` &lt;dbl&gt;, `Danny
+## #   Green` &lt;dbl&gt;, `Norman Powell` &lt;dbl&gt;</code></pre>
+<pre class="r"><code>regseasonstats %&gt;% pivot_longer(c(&quot;GP&quot;), names_to = &quot;Games&quot;, 
+    values_to = &quot;Games Played&quot;)</code></pre>
+<pre><code>## # A tibble: 51 x 25
+##    Name  Team   Rank POS     MIN   PTS   FGM   FGA `FG%` `3PM` `3PA` `3P%`   FTM
+##    &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt; &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+##  1 Jame… HOU       1 SG     36.8  36.1  10.8  24.5  44.2   4.8  13.2  36.8   9.7
+##  2 Paul… OKC       2 SG     36.9  28     9.2  21    43.8   3.8   9.8  38.6   5.9
+##  3 Gian… MIL       3 PF     32.8  27.7  10    17.3  57.8   0.7   2.8  25.6   6.9
+##  4 Joel… PHI       4 C      33.7  27.5   9.1  18.7  48.4   1.2   4.1  30     8.2
+##  5 Step… GS        5 PG     33.8  27.3   9.2  19.4  47.2   5.1  11.7  43.7   3.8
+##  6 Kawh… TOR       6 SF     34    26.6   9.3  18.8  49.6   1.9   5    37.1   6.1
+##  7 Kevi… GS        8 SF     34.6  26     9.2  17.7  52.1   1.8   5    35.3   5.7
+##  8 Dami… POR       9 PG     35.5  25.8   8.5  19.2  44.4   3     8    36.9   5.9
+##  9 Kyri… BOS      14 PG     33    23.8   9    18.5  48.7   2.6   6.5  40.1   3.2
+## 10 Dono… UTAH     15 SG     33.7  23.8   8.6  19.9  43.2   2.4   6.7  36.2   4.1
+## # … with 41 more rows, and 12 more variables: FTA &lt;dbl&gt;, `FT%` &lt;dbl&gt;,
+## #   REB &lt;dbl&gt;, AST &lt;dbl&gt;, STL &lt;dbl&gt;, BLK &lt;dbl&gt;, TO &lt;dbl&gt;, DD2 &lt;dbl&gt;, TD3 &lt;dbl&gt;,
+## #   PER &lt;dbl&gt;, Games &lt;chr&gt;, `Games Played` &lt;dbl&gt;</code></pre>
+<p>Because my dataset was already tidy, I used the pivot_wider function to untidy my dataset. This caused my data to become wider by making the “GP” column an observation and the Games Played count its own variable. To make my dataset tidy again, I used the pivot_longer function, reorganizing the data andmaking each row and column legible.</p>
+</div>
+<div id="joiningmerging" class="section level5">
+<h5>2. Joining/Merging</h5>
+<pre class="r"><code>joined_data &lt;- regseasonstats %&gt;% full_join(postseasonstats1)</code></pre>
+<p>The data was joined using the full_join function because both datasets have the same variables. Because the variables are the same for both datasets, the full_join function allows all columns and rows to remain. No cases were dropped by this joining, however, because the datasets have different observations and the same variables, the joined dataset is now much longer due to most of the observations being repeated.</p>
+</div>
+<div id="wrangling" class="section level5">
+<h5>3. Wrangling</h5>
+<pre class="r"><code>joined_data_mutated &lt;- joined_data %&gt;% mutate(TDPG = TD3/GP) %&gt;% 
+    mutate_if(is.numeric, round, digits = 3)
+
+joined_data %&gt;% group_by(Team) %&gt;% summarize(mean_points = mean(PTS))</code></pre>
+<pre><code>## # A tibble: 12 x 2
+##    Team  mean_points
+##    &lt;chr&gt;       &lt;dbl&gt;
+##  1 BOS          15.8
+##  2 DEN          16.4
+##  3 GS           22.1
+##  4 HOU          17.9
+##  5 LAC          19.4
+##  6 MIL          16.1
+##  7 OKC          25.6
+##  8 PHI          18.4
+##  9 POR          14.8
+## 10 SA           18.2
+## 11 TOR          13.8
+## 12 UTAH         22.6</code></pre>
+<pre class="r"><code>joined_data %&gt;% group_by(Team) %&gt;% summarize(mean_rebounds = mean(REB))</code></pre>
+<pre><code>## # A tibble: 12 x 2
+##    Team  mean_rebounds
+##    &lt;chr&gt;         &lt;dbl&gt;
+##  1 BOS            6.19
+##  2 DEN            6.52
+##  3 GS             5.99
+##  4 HOU            6.54
+##  5 LAC            5.02
+##  6 MIL            6.17
+##  7 OKC            9.22
+##  8 PHI            7.22
+##  9 POR            5.46
+## 10 SA             6.37
+## 11 TOR            5.31
+## 12 UTAH           4.55</code></pre>
+<pre class="r"><code>joined_data %&gt;% group_by(Team) %&gt;% summarize(mean_assists = mean(AST))</code></pre>
+<pre><code>## # A tibble: 12 x 2
+##    Team  mean_assists
+##    &lt;chr&gt;        &lt;dbl&gt;
+##  1 BOS           3.17
+##  2 DEN           3.78
+##  3 GS            5.15
+##  4 HOU           3.68
+##  5 LAC           3.77
+##  6 MIL           3.7 
+##  7 OKC           7.25
+##  8 PHI           4.11
+##  9 POR           2.58
+## 10 SA            3.8 
+## 11 TOR           3.17
+## 12 UTAH          3.7</code></pre>
+<pre class="r"><code>joined_data %&gt;% group_by(Team) %&gt;% summarize(mean_steals = mean(STL))</code></pre>
+<pre><code>## # A tibble: 12 x 2
+##    Team  mean_steals
+##    &lt;chr&gt;       &lt;dbl&gt;
+##  1 BOS         0.87 
+##  2 DEN         0.925
+##  3 GS          1.19 
+##  4 HOU         1.39 
+##  5 LAC         0.833
+##  6 MIL         0.94 
+##  7 OKC         1.62 
+##  8 PHI         0.97 
+##  9 POR         0.867
+## 10 SA          0.85 
+## 11 TOR         1    
+## 12 UTAH        1.5</code></pre>
+<pre class="r"><code>joined_data %&gt;% group_by(Team) %&gt;% summarize(mean_blocks = mean(BLK))</code></pre>
+<pre><code>## # A tibble: 12 x 2
+##    Team  mean_blocks
+##    &lt;chr&gt;       &lt;dbl&gt;
+##  1 BOS         0.6  
+##  2 DEN         0.525
+##  3 GS          0.825
+##  4 HOU         0.77 
+##  5 LAC         0.467
+##  6 MIL         0.89 
+##  7 OKC         0.425
+##  8 PHI         0.87 
+##  9 POR         0.5  
+## 10 SA          0.717
+## 11 TOR         0.619
+## 12 UTAH        0.3</code></pre>
+<pre class="r"><code>joined_data %&gt;% group_by(Team) %&gt;% summarize(mean_PER = mean(PER))</code></pre>
+<pre><code>## # A tibble: 12 x 2
+##    Team  mean_PER
+##    &lt;chr&gt;    &lt;dbl&gt;
+##  1 BOS       16.2
+##  2 DEN       18.9
+##  3 GS        19.9
+##  4 HOU       18.1
+##  5 LAC       21.2
+##  6 MIL       18.2
+##  7 OKC       19.8
+##  8 PHI       18.4
+##  9 POR       16.4
+## 10 SA        20.3
+## 11 TOR       16.0
+## 12 UTAH      12.0</code></pre>
+<pre class="r"><code>joined_data %&gt;% group_by(Team) %&gt;% summarize(mean_TO = mean(TO))</code></pre>
+<pre><code>## # A tibble: 12 x 2
+##    Team  mean_TO
+##    &lt;chr&gt;   &lt;dbl&gt;
+##  1 BOS      1.79
+##  2 DEN      1.66
+##  3 GS       2.75
+##  4 HOU      2.38
+##  5 LAC      1.93
+##  6 MIL      1.84
+##  7 OKC      4   
+##  8 PHI      2.32
+##  9 POR      1.52
+## 10 SA       1.77
+## 11 TOR      1.54
+## 12 UTAH     3.5</code></pre>
+<pre class="r"><code>joined_data %&gt;% group_by(Team) %&gt;% summarize(mean_min = mean(MIN))</code></pre>
+<pre><code>## # A tibble: 12 x 2
+##    Team  mean_min
+##    &lt;chr&gt;    &lt;dbl&gt;
+##  1 BOS       30.9
+##  2 DEN       30.5
+##  3 GS        35.8
+##  4 HOU       34.9
+##  5 LAC       28.7
+##  6 MIL       29.6
+##  7 OKC       38.3
+##  8 PHI       33.6
+##  9 POR       29.5
+## 10 SA        32  
+## 11 TOR       29.1
+## 12 UTAH      36.2</code></pre>
+<pre class="r"><code>joined_data %&gt;% group_by(Team) %&gt;% summarize(mean_games_played = mean(GP))</code></pre>
+<pre><code>## # A tibble: 12 x 2
+##    Team  mean_games_played
+##    &lt;chr&gt;             &lt;dbl&gt;
+##  1 BOS                40.8
+##  2 DEN                45.2
+##  3 GS                 46  
+##  4 HOU                40.8
+##  5 LAC                40.5
+##  6 MIL                44.3
+##  7 OKC                40  
+##  8 PHI                42.5
+##  9 POR                43.8
+## 10 SA                 41  
+## 11 TOR                47.1
+## 12 UTAH               41</code></pre>
+<pre class="r"><code>joined_data %&gt;% group_by(Team) %&gt;% summarize(mean_FGA = mean(FGA))</code></pre>
+<pre><code>## # A tibble: 12 x 2
+##    Team  mean_FGA
+##    &lt;chr&gt;    &lt;dbl&gt;
+##  1 BOS       12.7
+##  2 DEN       13.0
+##  3 GS        16.1
+##  4 HOU       13.5
+##  5 LAC       14.2
+##  6 MIL       12.0
+##  7 OKC       20.9
+##  8 PHI       13.7
+##  9 POR       11.9
+## 10 SA        14.4
+## 11 TOR       10.7
+## 12 UTAH      21.2</code></pre>
+<pre class="r"><code>joined_data %&gt;% arrange((Team), desc(PTS), (POS))</code></pre>
+<pre><code>## # A tibble: 102 x 24
+##    Name  Team   Rank POS      GP   MIN   PTS   FGM   FGA `FG%` `3PM` `3PA` `3P%`
+##    &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt; &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+##  1 Kyri… BOS      14 PG       67  33    23.8   9    18.5  48.7   2.6   6.5  40.1
+##  2 Kyri… BOS      14 PG        9  36.7  21.3   7.7  19.9  38.5   2     6.4  31  
+##  3 Jays… BOS      59 PF       79  31.1  15.7   5.9  13.1  45     1.5   3.9  37.3
+##  4 Jays… BOS      28 PF        9  32.8  15.2   5.4  12.4  43.8   1.1   3.4  32.3
+##  5 Al H… BOS      34 PF        9  34.4  13.9   5.1  12.2  41.8   2     4.9  40.9
+##  6 Marc… BOS      77 SF       75  27.9  13.9   5    11.3  44.7   1.9   5.2  37.5
+##  7 Jayl… BOS      34 SG        9  30.4  13.9   4.9   9.7  50.6   1.6   4.4  35  
+##  8 Marc… BOS      36 SF        9  28.2  13.7   4.6   8.8  51.9   2     4.4  45  
+##  9 Al H… BOS      84 PF       68  29    13.6   5.7  10.6  53.5   1.1   3    36  
+## 10 Jayl… BOS      88 SG       74  25.9  13     5    10.7  46.5   1.3   3.7  34.4
+## # … with 92 more rows, and 11 more variables: FTM &lt;dbl&gt;, FTA &lt;dbl&gt;,
+## #   `FT%` &lt;dbl&gt;, REB &lt;dbl&gt;, AST &lt;dbl&gt;, STL &lt;dbl&gt;, BLK &lt;dbl&gt;, TO &lt;dbl&gt;,
+## #   DD2 &lt;dbl&gt;, TD3 &lt;dbl&gt;, PER &lt;dbl&gt;</code></pre>
+<pre class="r"><code>joined_data %&gt;% select(Team, PTS, FTM)</code></pre>
+<pre><code>## # A tibble: 102 x 3
+##    Team    PTS   FTM
+##    &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;
+##  1 HOU    36.1   9.7
+##  2 OKC    28     5.9
+##  3 MIL    27.7   6.9
+##  4 PHI    27.5   8.2
+##  5 GS     27.3   3.8
+##  6 TOR    26.6   6.1
+##  7 GS     26     5.7
+##  8 POR    25.8   5.9
+##  9 BOS    23.8   3.2
+## 10 UTAH   23.8   4.1
+## # … with 92 more rows</code></pre>
+<pre class="r"><code>joined_data %&gt;% filter(Team == &quot;TOR&quot;) %&gt;% arrange(Name)</code></pre>
+<pre><code>## # A tibble: 16 x 24
+##    Name  Team   Rank POS      GP   MIN   PTS   FGM   FGA `FG%` `3PM` `3PA` `3P%`
+##    &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt; &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+##  1 Dann… TOR     131 SG       80  27.7  10.3   3.7   7.9  46.5   2.5   5.4  45.5
+##  2 Dann… TOR      56 SG       24  28.5   6.9   2.2   6.5  34.2   1.6   5    32.8
+##  3 Fred… TOR     117 SG       64  27.5  11     3.8   9.4  41     1.8   4.6  37.8
+##  4 Fred… TOR      53 SG       24  24.7   8     2.7   6.9  39.2   1.6   4.1  38.8
+##  5 Kawh… TOR       6 SF       60  34    26.6   9.3  18.8  49.6   1.9   5    37.1
+##  6 Kawh… TOR       3 SF       24  39.1  30.5  10.1  20.7  49     2.3   6    37.9
+##  7 Kyle… TOR      74 PG       65  34    14.2   4.7  11.4  41.1   2.4   7    34.7
+##  8 Kyle… TOR      30 PG       24  37.5  15     5.1  11.5  44     2.2   6    35.9
+##  9 Marc… TOR      85 C        79  30.8  13.6   4.9  11    44.8   1.3   3.5  36.3
+## 10 Marc… TOR      48 C        24  30.6   9.4   3.2   7.5  42.2   1.4   3.7  38.2
+## 11 Norm… TOR     162 SG       60  18.8   8.6   3.2   6.7  48.3   1.1   2.8  40  
+## 12 Norm… TOR      59 SG       23  15.9   6.5   2.4   5.5  44.4   1     2.7  38.7
+## 13 Pasc… TOR      45 PF       80  31.9  16.9   6.5  11.8  54.9   1     2.7  36.9
+## 14 Pasc… TOR      22 PF       24  37.1  19     7.5  16    47     1.2   4.3  27.9
+## 15 Serg… TOR      70 C        74  27.2  15     6.3  11.9  52.9   0.7   2.3  29  
+## 16 Serg… TOR      49 C        24  20.8   9.4   3.8   8    47.7   0.4   1.6  23.7
+## # … with 11 more variables: FTM &lt;dbl&gt;, FTA &lt;dbl&gt;, `FT%` &lt;dbl&gt;, REB &lt;dbl&gt;,
+## #   AST &lt;dbl&gt;, STL &lt;dbl&gt;, BLK &lt;dbl&gt;, TO &lt;dbl&gt;, DD2 &lt;dbl&gt;, TD3 &lt;dbl&gt;, PER &lt;dbl&gt;</code></pre>
+<p>The mutate function was used to calculate how many triple-doubles (TD3) a player averaged per game. The group_by and summarize function was used 10 times. Each summary statistic was grouped by Team in order to see the statistic lines average for the regular and postseason games per team specifically. Filter was used to compare statistic lines per listed player on the Toronto Raptors. The select function was used to see how many points a team averaged per game, and how many of those points, on average were free throws. Arrange was used to see how each player on a certain team scored in the post season and regular season, and was also able to compare the points scored with players of the same position on the same team.</p>
+</div>
+<div id="visualizing" class="section level5">
+<h5>4. Visualizing</h5>
+<pre class="r"><code>library(reshape2)
+joined_cor &lt;- joined_data %&gt;% na.omit %&gt;% select_if(is.numeric) %&gt;% 
+    cor()
+joined_melt &lt;- melt(joined_cor)
+head(joined_melt)</code></pre>
+<pre><code>##   Var1 Var2      value
+## 1 Rank Rank  1.0000000
+## 2   GP Rank  0.3880373
+## 3  MIN Rank -0.5767949
+## 4  PTS Rank -0.7198393
+## 5  FGM Rank -0.7169642
+## 6  FGA Rank -0.7057063</code></pre>
+<pre class="r"><code>library(ggplot2)
+ggplot(data = joined_melt, aes(x = Var1, y = Var2, fill = value)) + 
+    geom_tile(color = &quot;white&quot;) + scale_fill_gradient2(low = &quot;red&quot;, 
+    high = &quot;blue&quot;, mid = &quot;white&quot;, midpoint = 0, limit = c(-1, 
+        1), space = &quot;Lab&quot;, name = &quot;Correlation&quot;) + theme_minimal() + 
+    theme(axis.text.x = element_text(angle = 90, vjust = 1, size = 8, 
+        hjust = 1)) + coord_fixed()</code></pre>
+<p><img src="../project1_files/figure-html/unnamed-chunk-4-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>ggplot(data = joined_data, aes(x = PTS, y = FTM, color = Name)) + 
+    geom_point(size = 4) + ggtitle(&quot;Average Free Throws Made per Average Points per Game&quot;) + 
+    labs(x = &quot;Points per Game (PTS)&quot;, y = &quot; Free Throws Made (FTM)&quot;) + 
+    geom_line() + theme(legend.position = &quot;none&quot;)</code></pre>
+<p><img src="../project1_files/figure-html/unnamed-chunk-4-2.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>ggplot(data = joined_data, aes(x = PTS, y = PER, color = Name)) + 
+    geom_point(size = 4) + ggtitle(&quot;Player Efficiency Rating per Average Points per Game&quot;) + 
+    labs(x = &quot;Points per Game (PTS)&quot;, y = &quot; Player Efficiency Rating (PER)&quot;) + 
+    geom_line() + theme(legend.position = &quot;none&quot;)</code></pre>
+<p><img src="../project1_files/figure-html/unnamed-chunk-4-3.png" width="672" style="display: block; margin: auto;" /></p>
+<p>In the heat map, there are strong/stronger correlations with points and variables that are scoring statistics. The strongest correlations are between PTS and FGA and FGM, PTS and FTM and FTA, and PTS and PER. The strong correlation with PTS and field goals and free throws show that on average, players that score more points in a game, usually also score more free throws and field goals, and vise versa for lower scoring players. Also, the strong correlation between PTS and the PER shows that players that often score more points also have a higher efficiency rating, and vise versa.</p>
+<p>The first scatterplot shows a positive correlation between PTS and FTM, showing that free throws and points scored are directly related. Those that make more free throws generally score more points per game. These variables may be strongly related due to free throws commonly being given when a shooting foul is committed, so those that try to score more often may also be fouled more, resulting in more free throws being made. The second scatterplot a generally positive correlation between the PTS and PER. Because the two variables have a stronger correlation, this reflects that it is common for players to score more points per game if they have a higher player efficiency rating.</p>
+</div>
+<div id="dimensionality-reduction" class="section level5">
+<h5>5. Dimensionality Reduction</h5>
+<pre class="r"><code>library(cluster)
+joined_cluster &lt;- joined_data %&gt;% dplyr::select(PTS, PER)
+head(daisy(joined_cluster, &quot;gower&quot;))</code></pre>
+<pre><code>## [1] 0.2881510 0.1487327 0.2366882 0.2765508 0.2585244 0.3024489</code></pre>
+<pre class="r"><code>joined_cluster2 &lt;- joined_data %&gt;% mutate(cluster = sample(c(&quot;1&quot;, 
+    &quot;2&quot;, &quot;3&quot;), 102, replace = T)) %&gt;% group_by(cluster) %&gt;% summarize(PTS = mean(PTS), 
+    PER = mean(PER))
+
+ggplot(joined_data) + geom_point(aes(PTS, PER, color = Name)) + 
+    geom_point(data = joined_cluster2, aes(PTS, PER, fill = &quot;&quot;), 
+        color = &quot;black&quot;, size = 4) + scale_fill_manual(name = &quot;joined_cluster2&quot;, 
+    values = &quot;black&quot;) + ggtitle(&quot;PPG and MPG Clustered&quot;) + labs(x = &quot;Points per Game (PTS)&quot;, 
+    y = &quot;Player Efficiency Rating (PER)&quot;) + theme(legend.position = &quot;none&quot;)</code></pre>
+<p><img src="../project1_files/figure-html/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>In the k-means cluster graph, I was given the intersection of the average points (PTS) and average player efficiency rating (PER). The clusters represent the intesection of the average PTS and PER for a player in this dataset. The clusters on the graph showed a value of about 18 points per game and a PER approximately of 18. Similarly to the scatterplot with the same variables, this graph shows a positive correlation between PTS and PER.</p>
+</div>
+
+              <hr>
+              <div class="related-posts">
+                <h5>Related Posts</h5>
+                
+              </div>
+            </div>
+          </div>
+          <hr>
+        <div class="disqus">
+  <div id="disqus_thread"></div>
+  <script type="text/javascript">
+
+    (function() {
+      
+      
+      if (window.location.hostname == "localhost")
+        return;
+
+      var disqus_shortname = '';
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  <a href="http://disqus.com/" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+        </div>
+      </div>
+      
+    </div>
+
+    
+    <footer>
+  <div id="footer">
+    <div class="container">
+      <p class="text-muted">&copy; All rights reserved. Powered by <a href="https://gohugo.io/">Hugo</a> and
+      <a href="http://www.github.com/nurlansu/hugo-sustain/">sustain</a> with ♥</p>
+    </div>
+  </div>
+</footer>
+<div class="footer"></div>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="../js/docs.min.js"></script>
+<script src="../js/main.js"></script>
+
+<script src="../js/ie10-viewport-bug-workaround.js"></script>
+
+
+    
+  </body>
+</html>

@@ -1,0 +1,132 @@
+---
+title: 'Project 1: Exploratory Data Analysis'
+author: "SDS348"
+date: ''
+output:
+  pdf_document:
+    toc: no
+  html_document:
+    toc: yes
+    toc_float:
+      collapsed: no
+      smooth_scroll: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, eval = TRUE, fig.align = "center", warning = F, message = F,
+tidy=TRUE, tidy.opts=list(width.cutoff=60), R.options=list(max.print=100))
+```
+
+Heather Seiders hms2364
+
+##### 0. Introduction
+
+The datasets, regseasonstats and postseasonstats1 are both National Basketball Association player game statistics during the 2018-2019 basketball season. Players included in each of the datasets played 70% or more of their teams games and played at least 5 playoff games. The regseasonstats2 data observes the top 51 players from the regular season that made playoff appearances ranked by ESPN, and the postseasonstats2 data observes those that met the same 70% or more of all games played and also participated in at least 5 postseason games.There are 24 variables in both datasets have the same variables - all statistics from during game play, ie: position, games played, minutes per game, average points per game, assists, etc. With the data, some potential associations may be more higher ranked players on the same team may play more games in the postseason and high scoring players in the regular season may score more points during the post season. These assumptions are made based on player conistency through the regular season being reflected during the post season. Statistics on NBA players was interesting to me because I am currently playing fantasy basketball with my boyfriend and some friends. I do not really know much about the game and its players, but my fantasy team in currently in first, so I thought it would be fun to actaully know some player statistics.
+
+##### 1.) Tidying: Rearranging Wide/Long
+
+```{R}
+library(readxl)
+library(dplyr)
+library(tidyverse)
+
+postseasonstats1 <- read_excel("postseasonstats1.xlsx")
+str(postseasonstats1)
+
+regseasonstats <- read_excel("regseasonstats.xlsx")
+str(regseasonstats)
+
+postseasonstats1 %>% pivot_wider(names_from = "Name", values_from = "GP")
+postseasonstats1 %>% pivot_longer(c("GP"), names_to = "Games", values_to = "Games Played")
+
+regseasonstats %>% pivot_wider(names_from = "Name", values_from = "GP")
+regseasonstats %>% pivot_longer(c("GP"), names_to = "Games", values_to = "Games Played")
+```
+
+Because my dataset was already tidy, I used the pivot_wider function to untidy my dataset. This caused my data to become wider by making the "GP" column an observation and the Games Played count its own variable. To make my dataset tidy again, I used the pivot_longer function, reorganizing the data andmaking each row and column legible.
+
+##### 2. Joining/Merging
+
+```{R}
+joined_data <- regseasonstats %>% full_join(postseasonstats1)
+```
+
+The data was joined using the full_join function because both datasets have the same variables. Because the variables are the same for both datasets, the full_join function allows all columns and rows to remain. No cases were dropped by this joining, however, because the datasets have different observations and the same variables, the joined dataset is now much longer due to most of the observations being repeated. 
+
+##### 3. Wrangling
+
+```{R}
+joined_data_mutated <- joined_data %>%mutate(TDPG=TD3/GP) %>% mutate_if(is.numeric, round, digits = 3)
+
+joined_data %>% group_by(Team) %>% summarize(mean_points = mean(PTS))
+
+joined_data %>% group_by(Team) %>% summarize(mean_rebounds = mean(REB))
+
+joined_data %>% group_by(Team) %>% summarize(mean_assists = mean(AST))
+
+joined_data %>% group_by(Team) %>% summarize(mean_steals = mean(STL))
+
+joined_data %>% group_by(Team) %>% summarize(mean_blocks = mean(BLK))
+
+joined_data %>% group_by(Team) %>% summarize(mean_PER = mean(PER))
+
+joined_data %>% group_by(Team) %>% summarize(mean_TO = mean(TO))
+
+joined_data %>% group_by(Team) %>% summarize(mean_min = mean(MIN))
+
+joined_data %>% group_by(Team) %>% summarize(mean_games_played = mean(GP))
+
+joined_data %>% group_by(Team) %>% summarize(mean_FGA = mean(FGA))
+
+joined_data %>% arrange((Team), desc(PTS), (POS))
+
+joined_data %>% select(Team, PTS, FTM)
+
+joined_data %>% filter(Team=="TOR") %>% arrange(Name)
+```
+
+The mutate function was used to calculate how many triple-doubles (TD3) a player averaged per game. The group_by and summarize function was used 10 times. Each summary statistic was grouped by Team in order to see the statistic lines average for the regular and postseason games per team specifically. Filter was used to compare statistic lines per listed player on the Toronto Raptors. The select function was used to see how many points a team averaged per game, and how many of those points, on average were free throws. Arrange was used to see how each player on a certain team scored in the post season and regular season, and was also able to compare the points scored with players of the same position on the same team.
+
+##### 4. Visualizing
+
+```{R}
+library(reshape2)
+joined_cor <- joined_data %>% na.omit %>% select_if(is.numeric) %>%
+cor()
+joined_melt <- melt(joined_cor) 
+head(joined_melt)
+
+library(ggplot2)
+ggplot(data = joined_melt, aes(x = Var1, y = Var2, fill = value)) +
+geom_tile(color = "white") + scale_fill_gradient2(low = "red", high = "blue", mid = "white", midpoint = 0, limit = c(-1,
+1), space = "Lab", name = "Correlation") + theme_minimal() + theme(axis.text.x = element_text(angle = 90, vjust = 1, size = 8,
+hjust = 1)) + coord_fixed()
+
+ggplot(data = joined_data, aes(x = PTS, y = FTM, color = Name)) +
+geom_point(size = 4) + ggtitle("Average Free Throws Made per Average Points per Game") +  labs(x = "Points per Game (PTS)", y = " Free Throws Made (FTM)") +
+geom_line() + theme(legend.position = "none")
+
+ggplot(data = joined_data, aes(x = PTS, y = PER, color = Name)) +
+geom_point(size = 4) + ggtitle("Player Efficiency Rating per Average Points per Game") +  labs(x = "Points per Game (PTS)", y = " Player Efficiency Rating (PER)") +
+geom_line() + theme(legend.position = "none")
+```
+
+In the heat map, there are strong/stronger correlations with points and variables  that are scoring statistics. The strongest correlations are between PTS and FGA and FGM, PTS and FTM and FTA, and PTS and PER. The strong correlation with PTS and field goals and free throws show that on average, players that score more points in a game, usually also score more free throws and field goals, and vise versa for lower scoring players. Also, the strong correlation between PTS and the PER shows that players that often score more points also have a higher efficiency rating, and vise versa. 
+
+The first scatterplot shows a positive correlation between PTS and FTM, showing that free throws and points scored are directly related. Those that make more free throws generally score more points per game. These variables may be strongly related due to free throws commonly being given when a shooting foul is committed, so those that try to score more often may also be fouled more, resulting in more free throws being made. 
+The second scatterplot a generally positive correlation between the PTS and PER.  Because the two variables have a stronger correlation, this reflects that it is common for players to score more points per game if they have a higher player efficiency rating.
+
+##### 5. Dimensionality Reduction
+
+```{R}
+library(cluster)
+joined_cluster <- joined_data %>% dplyr::select(PTS, PER)
+head(daisy(joined_cluster, "gower"))
+
+joined_cluster2 <- joined_data %>% mutate(cluster = sample(c("1", "2", "3"), 102, replace = T)) %>% group_by(cluster) %>% summarize(PTS = mean(PTS), PER = mean(PER))
+
+ggplot(joined_data) + geom_point(aes(PTS, PER, color = Name)) + geom_point(data = joined_cluster2, aes(PTS, PER, fill = ""),
+color = "black", size = 4) + scale_fill_manual(name = "joined_cluster2", values = "black") + ggtitle("PPG and MPG Clustered") + labs(x = "Points per Game (PTS)", y = "Player Efficiency Rating (PER)")+ theme(legend.position = "none")
+```
+
+In the k-means cluster graph, I was given the intersection of the average points (PTS) and average player efficiency rating (PER). The clusters represent the intesection of the average PTS and PER for a player in this dataset. The clusters on the graph showed a value of about 18 points per game and a PER approximately of 18. Similarly to the scatterplot with the same variables, this graph shows a positive correlation between PTS and PER.

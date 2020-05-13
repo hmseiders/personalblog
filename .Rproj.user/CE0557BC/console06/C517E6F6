@@ -1,0 +1,11 @@
+]0;/stor/home/hms2364/Project 3/HeatherProject3]0;hms2364@educcomp01: ~/Project 3/HeatherProject3[01;32mhms2364@educcomp01[00m:[01;34m~/Project 3/HeatherProject3[00m$ [K]0;hms2364@educcomp01: ~/Project 3/HeatherProject3[01;32mhms2364@educcomp01[00m:[01;34m~/Project 3/HeatherProject3[00m$ 
+]0;/stor/home/hms2364/Project 3/HeatherProject3]0;hms2364@educcomp01: ~/Project 3/HeatherProject3[01;32mhms2364@educcomp01[00m:[01;34m~/Project 3/HeatherProject3[00m$ cd ~/personaalblog
+bash: cd: /stor/home/hms2364/personalblog: No such file or directory
+]0;/stor/home/hms2364/Project 3/HeatherProject3]0;hms2364@educcomp01: ~/Project 3/HeatherProject3[01;32mhms2364@educcomp01[00m:[01;34m~/Project 3/HeatherProject3[00m$ cd ` ~[K[K[K[K~[K ~/pr[K[KHeatherrProject3
+bash: cd: /stor/home/hms2364/HeatherProject3: No such file or directory
+]0;/stor/home/hms2364/Project 3/HeatherProject3]0;hms2364@educcomp01: ~/Project 3/HeatherProject3[01;32mhms2364@educcomp01[00m:[01;34m~/Project 3/HeatherProject3[00m$ 
+]0;/stor/home/hms2364/Project 3/HeatherProject3]0;hms2364@educcomp01: ~/Project 3/HeatherProject3[01;32mhms2364@educcomp01[00m:[01;34m~/Project 3/HeatherProject3[00m$ cd~[K ~/Projec t 3
+bash: cd: too many arguments
+]0;/stor/home/hms2364/Project 3/HeatherProject3]0;hms2364@educcomp01: ~/Project 3/HeatherProject3[01;32mhms2364@educcomp01[00m:[01;34m~/Project 3/HeatherProject3[00m$ git init
+Initialized empty Git repository in /stor/home/hms2364/Project 3/HeatherProject3/.git/
+]0;/stor/home/hms2364/Project 3/HeatherProject3]0;hms2364@educcomp01: ~/Project 3/HeatherProject3[01;32mhms2364@educcomp01[00m:[01;34m~/Project 3/HeatherProject3[00m$ a[Kgit add . 
