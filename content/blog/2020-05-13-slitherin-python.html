@@ -1,0 +1,31 @@
+---
+title: slitherin python
+author: Heather Seiders
+date: '2020-05-13'
+slug: slitherin-python
+categories: []
+tags: []
+description: ''
+---
+
+
+
+<p>While in SDS 348, one of the first things we learned in Python was that Python is very flexible with string operations. The string operations allow for funny reconfiguring of letters in words, which can be see below:</p>
+<pre class="python"><code>first = &quot;leo&quot;
+last = &quot;bobi&quot;
+first + last</code></pre>
+<pre><code>## &#39;leobobi&#39;</code></pre>
+<pre class="python"><code>last[:3]+first[2:]+&#39; &#39;+first[:3]+last[2:]</code></pre>
+<pre><code>## &#39;bobo leobi&#39;</code></pre>
+<pre class="python"><code>2*first[0:1] + 2*last[-1:]</code></pre>
+<pre><code>## &#39;llii&#39;</code></pre>
+<pre class="python"><code>2*(first[0:3]+last[-3:])</code></pre>
+<pre><code>## &#39;leoobileoobi&#39;</code></pre>
+<p>We also learned that the strings created in Python are immutable! Adding a simple function can easily change the entire formatting of an input, but the original will always be remembered as is!</p>
+<pre class="python"><code>x = &quot;leo and bobi&quot;
+x.upper()</code></pre>
+<pre><code>## &#39;LEO AND BOBI&#39;</code></pre>
+<pre class="python"><code>x</code></pre>
+<pre><code>## &#39;leo and bobi&#39;</code></pre>
+<p>If you’re wondering who/what is leo and bobi, they are my mini schnauzers and you can see them below! Leo is the grey schnauzer, and bobi is the tan/cream colored one!</p>
+<p>&lt;“<img src="/blog/2020-05-13-slitherin-python_files/IMG_4582.jpg" alt="jpg" />”&gt; &lt;“<img src="/blog/2020-05-13-slitherin-python_files/IMG_1995.JPG" alt="JPG" />”&gt; &lt;“<img src="/blog/2020-05-13-slitherin-python_files/bobi.JPG" alt="JPG" />”&gt;</p>

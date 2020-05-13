@@ -1,0 +1,31 @@
+---
+title: slitherin python
+author: Heather Seiders
+date: '2020-05-13'
+slug: slitherin-python
+categories: []
+tags: []
+description: ''
+---
+While in SDS 348, one of the first things we learned in Python was that Python is very flexible with string operations. The string operations allow for funny reconfiguring of letters in words, which can be see below:
+```{python}
+first = "leo"
+last = "bobi"
+first + last
+last[:3]+first[2:]+' '+first[:3]+last[2:]
+2*first[0:1] + 2*last[-1:]
+2*(first[0:3]+last[-3:])
+```
+
+We also learned that the strings created in Python are immutable! Adding a simple function can easily change the entire formatting of an input, but the original will always be remembered as is!
+```{python}
+x = "leo and bobi"
+x.upper()
+x
+```
+
+If you're wondering who/what is leo and bobi, they are my mini schnauzers and you can see them below! Leo is the grey schnauzer, and bobi is the tan/cream colored one!
+
+<"![jpg](/blog/2020-05-13-slitherin-python_files/IMG_4582.jpg)">
+<"![JPG](/blog/2020-05-13-slitherin-python_files/IMG_1995.JPG)">
+<"![JPG](/blog/2020-05-13-slitherin-python_files/bobi.JPG)">
