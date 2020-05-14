@@ -5,7 +5,7 @@
     "dirty" : false,
     "encoding" : "UTF-8",
     "folds" : "",
-    "hash" : "1615192345",
+    "hash" : "0",
     "id" : "798E72E6",
     "lastKnownWriteTime" : 1589409979,
     "last_content_update" : 1589409979300,
@@ -13,7 +13,7 @@
     "project_path" : "content/blog/2020-05-13-slitherin-python.Rmd",
     "properties" : {
         "cursorPosition" : "29,98",
-        "scrollLine" : "23"
+        "scrollLine" : "25"
     },
     "relative_order" : 7,
     "source_on_save" : false,
